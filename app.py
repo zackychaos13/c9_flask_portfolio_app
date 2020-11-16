@@ -8,28 +8,28 @@ import os
 
 app = Flask(__name__)
 
+# / = if the user goes to homepage
+@app.route('/', methods=['GET']) 
+def home_page(): # define homepage
+	return render_template('index.html') # then show the user the html file
 
-@app.route('/', methods=['GET'])
-def home_page():
-	return render_template('index.html')
-
-@app.route('/<name>')
+@app.route('/<name>') # pass name to url
 def profile(name):
-	return render_template('index.html', name=name)
+	return render_template('index.html', name=name) # pass name to html
 
-
+# if you go to /add_numbers...
 @app.route('/add_numbers', methods=['GET','POST'])
 def add_numbers_post():
 	  # --> ['5', '6', '8']
 	  # print(type(request.form['text']))
 	  if request.method == 'GET':
-	  	return render_template('add_numbers.html')
+	  	return render_template('add_numbers.html') #... we access (render) this template
 	  elif request.method == 'POST':
   	      print(request.form['text'].split())
-  	      total = 0
+  	      total = 0 # if addition, set zero. if multiplication, set at 1.
   	      try:
-  	      	for str_num in request.form['text'].split():
-  	      		total += int(str_num)
+  	      	for str_num in request.form['text'].split(): # from request.form, split it 
+  	      		total += int(str_num) # total = sum; 
   	      	return render_template('add_numbers.html', result=str(total))
   	      except ValueError:
   	      	return "Easy now! Let's keep it simple! 2 numbers with a space between them please"
